@@ -1,0 +1,16 @@
+Yamaha MCR-33
+
+Service manual is here
+https://www.manualslib.com/download/1241537/Yamaha-Crx-330.html
+
+Mounts Renesas M66003. Datasheet not available but M66004 is:
+https://playground.arduino.cc/Main/M66004Vfd
+
+Data is conveyed via SPI so should be fairly easy to snoop data and display it
+
+
+Seven segment displays
+-Use 4511 BCD driver
+-Use Bangood 1737 four digit display drive via serial protocol	
+-Use Adafruit HT16K33 four digit display driven via I2C. Suits common Anode
+ displays https://www.adafruit.com/product/1427
