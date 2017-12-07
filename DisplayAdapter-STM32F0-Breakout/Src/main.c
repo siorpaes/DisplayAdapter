@@ -42,6 +42,7 @@
 
 /* USER CODE BEGIN Includes */
 #include <string.h>
+#include "tm1637.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -100,9 +101,7 @@ int main(void)
   MX_SPI1_Init();
 
   /* USER CODE BEGIN 2 */
-
-	/* Start SPI reception in DMA circular mode */
-
+	tm1637Demo();
   /* USER CODE END 2 */
 
   /* Infinite loop */

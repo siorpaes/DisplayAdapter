@@ -336,7 +336,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F030x6</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;          ../Drivers/STM32F0xx_HAL_Driver/Inc;          ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy;          ../Drivers/CMSIS/Device/ST/STM32F0xx/Include;          ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F0xx_HAL_Driver/Inc;../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../Drivers/CMSIS/Include;../TM1637</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -499,6 +499,16 @@
               <FileName>stm32f0xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f0xx_hal_msp.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>TM1637</GroupName>
+          <Files>
+            <File>
+              <FileName>tm1637.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TM1637\tm1637.c</FilePath>
             </File>
           </Files>
         </Group>
