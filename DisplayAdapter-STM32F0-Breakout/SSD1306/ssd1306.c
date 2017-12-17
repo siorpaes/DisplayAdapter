@@ -25,6 +25,8 @@ All text above, and the splash screen below must be included in any redistributi
 #include <string.h>
 #include "stm32f0xx_hal.h"
 #include "ssd1306.h"
+#include "Adafruit_GFX.h"
+
 
 #define SSD1306_ADDR (0x78)
 
@@ -33,8 +35,8 @@ extern I2C_HandleTypeDef hi2c1;
 int8_t i2caddr;
 int8_t vccstate = 0;
 int rotation;
-int width = SSD1306_LCDWIDTH;
-int height = SSD1306_LCDHEIGHT;
+int16_t width = SSD1306_LCDWIDTH;
+int16_t height = SSD1306_LCDHEIGHT;
 int WIDTH = SSD1306_LCDWIDTH;
 int HEIGHT = SSD1306_LCDHEIGHT;
 
@@ -571,3 +573,29 @@ int getHeight(void)
 	return HEIGHT;
 }
 
+void ssd1306Demo(void)
+{
+	int i, n = 0;
+	char caption[8];
+
+	ssd1306Init();
+	display();
+	HAL_Delay(200);
+
+	Adafruit_GFX(getWidth(), getHeight());
+	setTextSize(6);
+	setTextColor1(WHITE);
+
+	while(1){
+		clearDisplay();
+		setCursor(0, 0);
+		sprintf(caption, "%i", n%1000);
+		for(i=0; i<strlen(caption); i++)
+			write(caption[i]);
+
+		display();
+		n++;
+
+		HAL_Delay(5);
+	}
+}

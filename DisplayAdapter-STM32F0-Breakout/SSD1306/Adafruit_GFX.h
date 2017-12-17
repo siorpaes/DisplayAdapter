@@ -45,8 +45,6 @@ void getTextBounds(char *string, int16_t x, int16_t y, int16_t *x1, int16_t *y1,
 
 
 void write(uint8_t);
-int16_t height(void);
-int16_t width(void);
 uint8_t getRotation(void);
 
 // get current cursor position (get rotation safe maximum values, using: width() for x, height() for y)

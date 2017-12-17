@@ -44,6 +44,8 @@
 #include <string.h>
 #include "tm1637.h"
 #include "ssd1306.h"
+#include "Adafruit_GFX.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -80,7 +82,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+		
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -106,7 +108,9 @@ int main(void)
   MX_I2C1_Init();
 
   /* USER CODE BEGIN 2 */
-	ssd1306Init();
+	
+	/* Select one out of these two */
+	ssd1306Demo();
 	tm1637Demo();
   /* USER CODE END 2 */
 

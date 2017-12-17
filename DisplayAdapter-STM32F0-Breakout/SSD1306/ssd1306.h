@@ -117,6 +117,7 @@ typedef uint32_t PortMask;
 #define SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL 0x29
 #define SSD1306_VERTICAL_AND_LEFT_HORIZONTAL_SCROLL 0x2A
 
+void ssd1306Demo(void);
 void ssd1306Init(void);
 void ssd1306_command(uint8_t c);
 
