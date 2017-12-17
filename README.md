@@ -1,6 +1,6 @@
 # DisplayAdapter
 This project aims at extending Yamaha CRX-140 display with TM1637
-seven segments display or SSD1406 OLED display.
+seven segments display or SSD1306 OLED display.
 
 Implementation uses this cute board hosting a TSSOP20 STM32F0:
 https://hackaday.io/project/4277-stm32f030f4p6-breakout-board
