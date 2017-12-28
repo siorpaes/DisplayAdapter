@@ -108,10 +108,45 @@ int main(void)
   MX_I2C1_Init();
 
   /* USER CODE BEGIN 2 */
-	
+
+	/* Initialize SSD1306 */
+	int i, n = 0;
+	char caption[8];
+
+	ssd1306Init();
+	display();
+	HAL_Delay(200);
+
+	Adafruit_GFX(getWidth(), getHeight());
+	setTextSize(6);
+	setTextColor1(WHITE);
+
+
+	/* Initialize TM1637 */
+	tm1637Init();
+	tm1637SetBrightness(8);
+
+	/* Drive both displays */
+	while(1){
+		/* SSD1306 */
+		clearDisplay();
+		setCursor(0, 0);
+		sprintf(caption, "%i", n%1000);
+		for(i=0; i<strlen(caption); i++)
+			write(caption[i]);
+
+		display();
+		HAL_Delay(5);
+
+		/* TM1637 */
+		tm1637DisplayDecimal(n, 0);
+		
+		n++;
+	}
 	/* Select one out of these two */
-	ssd1306Demo();
-	tm1637Demo();
+	//ssd1306Demo();
+	//tm1637Demo();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
