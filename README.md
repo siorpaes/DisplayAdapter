@@ -4,9 +4,28 @@ seven segments display or SSD1306 OLED display.
 
 Implementation uses this cute board hosting a TSSOP20 STM32F0:
 https://hackaday.io/project/4277-stm32f030f4p6-breakout-board
+or a STMicroelectronics DiscoveryL0 board which features an e-ink display.
 
-The idea is to decode the M66003 display driver SPI protocol and re-route only
-the digits representing the song ID to secondary display.
+The idea is to decode the M66003 display driver SPI protocol and
+re-target the contents to a secondary display.
+SPI display signals are available on internal Yamaha 15 pin connector:
+
+| Signal | Connector pin |
+|--------|---------------|
+|  DGND  |       4       |
+|  MOSI  |       7       |
+|  +3V3  |       8       |
+|   CS   |       9       |
+|  CLK   |      11       |
+
+Signals can be easily wired out on a 6 pin flat cable connector, e.g.: 
+NC       - CS(9)   - MOSI(7)
+CLK(11)  - 3V3(8)  - GND(4)
+
+SPI parameters: 400kHz clock, MSB First, CPOL=1, CPHA=1
+The data is tramsmitted as ASCII code characters starting from the third byte
+so it is fairly easy to decode.
+
 See docs folder for all components' specifications
 
 Pinout
