@@ -73,9 +73,10 @@ static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN 0 */
 #define BUFFERLEN (128)
-uint8_t buffer[BUFFERLEN];
+volatile uint8_t buffer[BUFFERLEN];
 int startOfData;
 volatile int notifyBufferCompleted;
+int count;
 /* USER CODE END 0 */
 
 int main(void)
@@ -113,6 +114,7 @@ int main(void)
 	int i, n = 0;
 	char caption[8];
 
+#if 0
 	ssd1306Init();
 	display();
 	HAL_Delay(200);
@@ -146,7 +148,7 @@ int main(void)
 	/* Select one out of these two */
 	//ssd1306Demo();
 	//tm1637Demo();
-
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -162,10 +164,10 @@ int main(void)
 
 		notifyBufferCompleted = 0;
 		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-			
+		n++;
 		/* Decode data starting from startOfData and drive display */
-		HAL_Delay(500);
-		memset(buffer, 'b', sizeof(buffer));
+		//HAL_Delay(500);
+		//memset(buffer, 'b', sizeof(buffer));
 		//TODO
   }
   /* USER CODE END 3 */
@@ -270,9 +272,9 @@ static void MX_SPI1_Init(void)
   hspi1.Init.Mode = SPI_MODE_SLAVE;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES_RXONLY;
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
+  hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
