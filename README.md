@@ -1,8 +1,7 @@
 # DisplayAdapter
-This project aims at extending Yamaha CRX-140 display with TM1637
-seven segments display or SSD1306 OLED display.
+This project aims at mirroring Yamaha CRX-140 display with some more visible ones, such as e-paper, TM1637 seven segments display or SSD1306 OLED display.
 
-Implementation uses this cute board hosting a TSSOP20 STM32F0:
+Implementation uses this very simple board hosting a TSSOP20 STM32F0:
 https://hackaday.io/project/4277-stm32f030f4p6-breakout-board
 or a STMicroelectronics DiscoveryL0 board which features an e-ink display.
 
@@ -19,12 +18,12 @@ SPI display signals are available on internal Yamaha 15 pin connector:
 |  CLK   |      11       |
 
 Signals can be easily wired out on a 6 pin flat cable connector, e.g.: 
+```
 NC       - CS(9)   - MOSI(7)
 CLK(11)  - 3V3(8)  - GND(4)
+```
 
-SPI parameters: 400kHz clock, MSB First, CPOL=1, CPHA=1
-The data is tramsmitted as ASCII code characters starting from the third byte
-so it is fairly easy to decode.
+SPI parameters: 200kHz clock, MSB First, CPOL=1, CPHA=1. Check salae-dumps directory for actual snooped SPI data. Data is transmitted as plain ASCII code characters starting from the third byte onwards so it is fairly easy to decode.
 
 See docs folder for all components' specifications
 
@@ -39,5 +38,3 @@ Pinout
 | TM1637  SDA  |  PA2     | Bitbanged, not defined in CubeMX  |
 | SSD1306 SCL  |  PA9     |                                   |
 | SSD1306 SDA  |  PA10    |                                   |
-
-
