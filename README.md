@@ -23,9 +23,10 @@ NC       - CS(9)   - MOSI(7)
 CLK(11)  - 3V3(8)  - GND(4)
 ```
 
-SPI parameters: 200kHz clock, MSB First, CPOL=1, CPHA=1. Check salae-dumps directory for actual snooped SPI data. Data is transmitted as plain ASCII code characters starting from the third byte onwards so it is fairly easy to decode.
+SPI parameters: 200kHz clock, MSB First, CPOL=1, CPHA=1. Check salae-dumps directory for actual snooped SPI data. Data is transmitted as plain ASCII codes and is composed of 15 characters with possible padding spaces (0x20) with heading 0xFA, 0x00 bytes and 0xF9, 0xFF trailing bytes.
 
-See docs folder for all components' specifications
+See docs folder for all components' specifications.
+
 
 Pinout
 
