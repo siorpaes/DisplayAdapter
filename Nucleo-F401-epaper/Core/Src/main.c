@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "DEV_Config.h"
 #include "EPD_1in54_V2.h"
 #include "GUI_Paint.h"
@@ -70,6 +71,7 @@ static void MX_SPI3_Init(void);
 /* USER CODE BEGIN 0 */
 #define BUFFERLEN 32
 uint8_t spibuffer[BUFFERLEN];
+char displaybuffer[32];
 int oldbufferpos;
 int bufferpos;
 int ndatareceived;
@@ -84,7 +86,6 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 		int ret;
-		char buffer[32];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -111,10 +112,7 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
 	
-  printf("EPD_1in54_V2_test Demo\r\n");
   DEV_Module_Init();
-
-  printf("e-Paper Init and Clear...\r\n");
   EPD_1IN54_V2_Init();
   EPD_1IN54_V2_Clear();
 	
@@ -137,14 +135,16 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
-	 Paint_SelectImage(BlackImage);
-   Paint_Clear(WHITE);
-	 while(dataready == 0);
-	 dataready = 0;
-	 sprintf(buffer, "Bellaz %i", ndatareceived);
-	 Paint_DrawString_EN(5, 115, buffer, &Font12, WHITE, BLACK);
-	 Paint_DrawString_EN(5, 155, buffer, &Font24, WHITE, BLACK);
-	 EPD_1IN54_V2_Display(BlackImage);
+		memset(displaybuffer, 0, sizeof(displaybuffer));
+		
+		Paint_SelectImage(BlackImage);
+		Paint_Clear(WHITE);
+		while(dataready == 0);
+		dataready = 0;
+		printf("%i chars: %s\r\n", ndatareceived, displaybuffer);
+		Paint_DrawString_EN(5, 15, displaybuffer, &Font12, WHITE, BLACK);
+		Paint_DrawString_EN(5, 155, displaybuffer, &Font24, WHITE, BLACK);
+		EPD_1IN54_V2_Display(BlackImage);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -359,7 +359,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PB0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -392,16 +392,26 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	bufferpos = BUFFERLEN - hspi3.hdmarx->Instance->NDTR;
-	if(bufferpos >= oldbufferpos)
-		ndatareceived = bufferpos - oldbufferpos;
-	else
-		ndatareceived = BUFFERLEN + bufferpos - oldbufferpos;
-	
-	oldbufferpos = bufferpos;
-	
 	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	dataready = 1;
+
+	/* Sort out how much data arrived */
+	bufferpos = BUFFERLEN - hspi3.hdmarx->Instance->NDTR;
+
+	if(bufferpos >= oldbufferpos){
+		ndatareceived = bufferpos - oldbufferpos;
+		memcpy(displaybuffer, (uint8_t*)&spibuffer[oldbufferpos], ndatareceived);
+	}
+	else{
+		ndatareceived = BUFFERLEN + bufferpos - oldbufferpos;
+		memcpy(displaybuffer, (uint8_t*)&spibuffer[oldbufferpos], BUFFERLEN-oldbufferpos);
+		memcpy(&displaybuffer[BUFFERLEN-oldbufferpos], (uint8_t*)spibuffer, bufferpos);
+
+	}
+
+	oldbufferpos = bufferpos;
+
+	if(ndatareceived)
+		dataready = 1;
 }
 
 
