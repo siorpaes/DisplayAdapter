@@ -150,8 +150,8 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>0</SubType>
-          <ItemText>spibuffer</ItemText>
+          <SubType>8</SubType>
+          <ItemText>displaybuffer</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
