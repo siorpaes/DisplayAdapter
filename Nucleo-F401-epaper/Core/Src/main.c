@@ -125,6 +125,14 @@ int main(void)
   }
   printf("Paint_NewImage\r\n");
   Paint_NewImage(BlackImage, EPD_1IN54_V2_WIDTH, EPD_1IN54_V2_HEIGHT, 270, WHITE);
+
+#if 1
+	Paint_SelectImage(BlackImage);
+	Paint_Clear(WHITE);
+
+	Paint_DrawString_EN(5, 105, "Ciao", &Font48, WHITE, BLACK);
+	EPD_1IN54_V2_Display(BlackImage);
+#endif
 	
 	/* Start piping in data */
 	ret = HAL_SPI_Receive_DMA(&hspi3, spibuffer, BUFFERLEN);

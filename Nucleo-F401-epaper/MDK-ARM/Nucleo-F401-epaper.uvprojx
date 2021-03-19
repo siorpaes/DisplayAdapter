@@ -535,6 +535,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\Fonts\font24.c</FilePath>
             </File>
+            <File>
+              <FileName>font32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Fonts\font32.c</FilePath>
+            </File>
+            <File>
+              <FileName>font48.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Fonts\font48.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
