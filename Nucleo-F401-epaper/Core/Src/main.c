@@ -136,7 +136,7 @@ int main(void)
   EPD_Clear();
 	
 	UBYTE *BlackImage;
-    /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
+  /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
   UWORD Imagesize = ((EPD_WIDTH % 8 == 0)? (EPD_WIDTH / 8 ): (EPD_WIDTH / 8 + 1)) * EPD_HEIGHT;
   if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
     printf("Failed to apply for black memory...\r\n");
@@ -153,17 +153,18 @@ int main(void)
 	EPD_Display(BlackImage);
 #endif
 	
-	/* Start piping in data */
+	/* Start piping in data from SPI slave */
 	ret = HAL_SPI_Receive_DMA(&hspi3, spibuffer, BUFFERLEN);
-	if(ret != HAL_OK)
-		while(1); //print some better message on display
+	if(ret != HAL_OK){
+		printf("Error in SPI Receive\r\n");
+		while(1);
+	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
 		memset(displaybuffer, 0, sizeof(displaybuffer));
-		
 		Paint_SelectImage(BlackImage);
 		Paint_Clear(WHITE);
 		while(dataready == 0);
