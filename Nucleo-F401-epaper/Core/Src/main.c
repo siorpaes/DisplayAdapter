@@ -28,6 +28,7 @@
 #include <string.h>
 #include "DEV_Config.h"
 #include "EPD_1in54_V2.h"
+#include "EPD_4in2.h"
 #include "GUI_Paint.h"
 /* USER CODE END Includes */
 
@@ -76,6 +77,24 @@ int oldbufferpos;
 int bufferpos;
 int ndatareceived;
 volatile int dataready;
+
+#define EPD_WIDTH EPD_1IN54_V2_WIDTH
+#define EPD_HEIGHT EPD_1IN54_V2_HEIGHT
+
+void EPD_Init(void)
+{
+	EPD_1IN54_V2_Init();
+}
+
+void EPD_Clear(void)
+{
+	EPD_1IN54_V2_Clear();
+}
+
+void EPD_Display(UBYTE *Image)
+{
+	EPD_1IN54_V2_Display(Image);
+}
 /* USER CODE END 0 */
 
 /**
@@ -113,25 +132,25 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
   DEV_Module_Init();
-  EPD_1IN54_V2_Init();
-  EPD_1IN54_V2_Clear();
+  EPD_Init();
+  EPD_Clear();
 	
 	UBYTE *BlackImage;
     /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
-  UWORD Imagesize = ((EPD_1IN54_V2_WIDTH % 8 == 0)? (EPD_1IN54_V2_WIDTH / 8 ): (EPD_1IN54_V2_WIDTH / 8 + 1)) * EPD_1IN54_V2_HEIGHT;
+  UWORD Imagesize = ((EPD_WIDTH % 8 == 0)? (EPD_WIDTH / 8 ): (EPD_WIDTH / 8 + 1)) * EPD_HEIGHT;
   if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
     printf("Failed to apply for black memory...\r\n");
     return -1;
   }
   printf("Paint_NewImage\r\n");
-  Paint_NewImage(BlackImage, EPD_1IN54_V2_WIDTH, EPD_1IN54_V2_HEIGHT, 270, WHITE);
+  Paint_NewImage(BlackImage, EPD_WIDTH, EPD_HEIGHT, 270, WHITE);
 
 #if 1
 	Paint_SelectImage(BlackImage);
 	Paint_Clear(WHITE);
 
-	Paint_DrawString_EN(5, 105, "Ciao", &Font48, WHITE, BLACK);
-	EPD_1IN54_V2_Display(BlackImage);
+	Paint_DrawString_EN(5, 105, "Hi THERE", &Font48, WHITE, BLACK);
+	EPD_Display(BlackImage);
 #endif
 	
 	/* Start piping in data */
@@ -151,8 +170,8 @@ int main(void)
 		dataready = 0;
 		printf("%i chars: %s\r\n", ndatareceived, displaybuffer);
 		Paint_DrawString_EN(5, 15, displaybuffer, &Font12, WHITE, BLACK);
-		Paint_DrawString_EN(5, 155, displaybuffer, &Font24, WHITE, BLACK);
-		EPD_1IN54_V2_Display(BlackImage);
+		Paint_DrawString_EN(5, 100, displaybuffer, &Font48, WHITE, BLACK);
+		EPD_Display(BlackImage);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -227,7 +246,7 @@ static void MX_SPI2_Init(void)
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

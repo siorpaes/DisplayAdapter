@@ -625,6 +625,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\Examples\ImageData.c</FilePath>
             </File>
+            <File>
+              <FileName>EPD_4in2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\e-Paper\EPD_4in2.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
