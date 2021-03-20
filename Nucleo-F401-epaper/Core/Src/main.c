@@ -44,6 +44,10 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
+/* Select target display */
+#define WAVESHARE_154
+//#define WAVESHARE_42
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -78,23 +82,21 @@ int bufferpos;
 int ndatareceived;
 volatile int dataready;
 
+#ifdef WAVESHARE_154
 #define EPD_WIDTH EPD_1IN54_V2_WIDTH
 #define EPD_HEIGHT EPD_1IN54_V2_HEIGHT
-
-void EPD_Init(void)
-{
-	EPD_1IN54_V2_Init();
-}
-
-void EPD_Clear(void)
-{
-	EPD_1IN54_V2_Clear();
-}
-
-void EPD_Display(UBYTE *Image)
-{
-	EPD_1IN54_V2_Display(Image);
-}
+void EPD_Init(void) { EPD_1IN54_V2_Init(); }
+void EPD_Clear(void) {	EPD_1IN54_V2_Clear(); }
+void EPD_Display(UBYTE *Image) { EPD_1IN54_V2_Display(Image); }
+#elif defined (WAVESHARE_42)
+#define EPD_WIDTH EPD_4IN2_WIDTH
+#define EPD_HEIGHT EPD_4IN2_HEIGHT
+void EPD_Init(void) { EPD_4IN2_Init(); }
+void EPD_Clear(void) {	EPD_4IN2_Clear(); }
+void EPD_Display(UBYTE *Image) { EPD_4IN2_Display(Image); }
+#else
+#error "Display not supported"
+#endif
 /* USER CODE END 0 */
 
 /**
@@ -140,9 +142,9 @@ int main(void)
   UWORD Imagesize = ((EPD_WIDTH % 8 == 0)? (EPD_WIDTH / 8 ): (EPD_WIDTH / 8 + 1)) * EPD_HEIGHT;
   if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
     printf("Failed to apply for black memory...\r\n");
-    return -1;
+		while(1);
   }
-  printf("Paint_NewImage\r\n");
+
   Paint_NewImage(BlackImage, EPD_WIDTH, EPD_HEIGHT, 270, WHITE);
 
 #if 1
@@ -170,7 +172,6 @@ int main(void)
 		while(dataready == 0);
 		dataready = 0;
 		printf("%i chars: %s\r\n", ndatareceived, displaybuffer);
-		Paint_DrawString_EN(5, 15, displaybuffer, &Font12, WHITE, BLACK);
 		Paint_DrawString_EN(5, 100, displaybuffer, &Font48, WHITE, BLACK);
 		EPD_Display(BlackImage);
     /* USER CODE END WHILE */
