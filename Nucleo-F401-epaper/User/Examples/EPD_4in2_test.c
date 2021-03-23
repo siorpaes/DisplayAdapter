@@ -54,7 +54,7 @@ int EPD_4in2_test(void)
     printf("Paint_NewImage\r\n");
     Paint_NewImage(BlackImage, EPD_4IN2_WIDTH, EPD_4IN2_HEIGHT, 0, WHITE);
     
-#if 1   // show image for array   
+#if 0   // show image for array   
     printf("show image for array\r\n");
     Paint_SelectImage(BlackImage);
     Paint_Clear(WHITE);
@@ -86,8 +86,8 @@ int EPD_4in2_test(void)
     Paint_DrawString_EN(10, 20, "hello world", &Font12, WHITE, BLACK);
     Paint_DrawNum(10, 33, 123456789, &Font12, BLACK, WHITE);
     Paint_DrawNum(10, 50, 987654321, &Font16, WHITE, BLACK);
-    Paint_DrawString_CN(130, 0, " 你好abc", &Font12CN, BLACK, WHITE);
-    Paint_DrawString_CN(130, 20, "微雪电子", &Font24CN, WHITE, BLACK);
+    Paint_DrawString_EN(130, 0, " bella", &Font12, BLACK, WHITE);
+    Paint_DrawString_EN(130, 20, "zio", &Font24, WHITE, BLACK);
 
     printf("EPD_Display\r\n");
     EPD_4IN2_Display(BlackImage);
@@ -127,6 +127,7 @@ int EPD_4in2_test(void)
     }
 #endif
 
+#if 0
 	EPD_4IN2_Init_4Gray();
 	printf("show Gray------------------------\r\n");
 	free(BlackImage);
@@ -155,15 +156,15 @@ int EPD_4in2_test(void)
     Paint_DrawString_EN(10, 20, "hello world", &Font12, WHITE, BLACK);
     Paint_DrawNum(10, 33, 123456789, &Font12, BLACK, WHITE);
     Paint_DrawNum(10, 50, 987654321, &Font16, WHITE, BLACK);
-    Paint_DrawString_CN(140, 0, "你好abc", &Font12CN, GRAY1, GRAY4);
-    Paint_DrawString_CN(140, 40, "你好abc", &Font12CN, GRAY2, GRAY3);
-    Paint_DrawString_CN(140, 80, "你好abc", &Font12CN, GRAY3, GRAY2);
-    Paint_DrawString_CN(140, 120, "你好abc", &Font12CN, GRAY4, GRAY1);
+    //Paint_DrawString_CN(140, 0, "你好abc", &Font12CN, GRAY1, GRAY4);
+    //Paint_DrawString_CN(140, 40, "你好abc", &Font12CN, GRAY2, GRAY3);
+    //Paint_DrawString_CN(140, 80, "你好abc", &Font12CN, GRAY3, GRAY2);
+    //Paint_DrawString_CN(140, 120, "你好abc", &Font12CN, GRAY4, GRAY1);
 	
-    Paint_DrawString_CN(220, 0, "微雪电子", &Font24CN, GRAY1, GRAY4);
-    Paint_DrawString_CN(220, 40, "微雪电子", &Font24CN, GRAY2, GRAY3);
-    Paint_DrawString_CN(220, 80, "微雪电子", &Font24CN, GRAY3, GRAY2);
-    Paint_DrawString_CN(220, 120, "微雪电子", &Font24CN, GRAY4, GRAY1);
+    //Paint_DrawString_CN(220, 0, "微雪电子", &Font24CN, GRAY1, GRAY4);
+    //Paint_DrawString_CN(220, 40, "微雪电子", &Font24CN, GRAY2, GRAY3);
+    //Paint_DrawString_CN(220, 80, "微雪电子", &Font24CN, GRAY3, GRAY2);
+    //Paint_DrawString_CN(220, 120, "微雪电子", &Font24CN, GRAY4, GRAY1);
 	
 	EPD_4IN2_4GrayDisplay(BlackImage);
 	DEV_Delay_ms(500);
@@ -183,7 +184,7 @@ int EPD_4in2_test(void)
     // close 5V
     printf("close 5V, Module enters 0 power consumption ...\r\n");
     DEV_Module_Exit();
-    
+    #endif
     return 0;
 }
 

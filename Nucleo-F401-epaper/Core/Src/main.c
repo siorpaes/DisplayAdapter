@@ -45,8 +45,8 @@
 /* USER CODE BEGIN PM */
 
 /* Select target display */
-#define WAVESHARE_154
-//#define WAVESHARE_42
+//#define WAVESHARE_154
+#define WAVESHARE_42
 
 /* USER CODE END PM */
 
@@ -83,12 +83,14 @@ int ndatareceived;
 volatile int dataready;
 
 #ifdef WAVESHARE_154
+#define ROTATION 270
 #define EPD_WIDTH EPD_1IN54_V2_WIDTH
 #define EPD_HEIGHT EPD_1IN54_V2_HEIGHT
 void EPD_Init(void) { EPD_1IN54_V2_Init(); }
 void EPD_Clear(void) {	EPD_1IN54_V2_Clear(); }
 void EPD_Display(UBYTE *Image) { EPD_1IN54_V2_Display(Image); }
 #elif defined (WAVESHARE_42)
+#define ROTATION 0
 #define EPD_WIDTH EPD_4IN2_WIDTH
 #define EPD_HEIGHT EPD_4IN2_HEIGHT
 void EPD_Init(void) { EPD_4IN2_Init(); }
@@ -132,7 +134,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-	
+
   DEV_Module_Init();
   EPD_Init();
   EPD_Clear();
@@ -145,13 +147,13 @@ int main(void)
 		while(1);
   }
 
-  Paint_NewImage(BlackImage, EPD_WIDTH, EPD_HEIGHT, 270, WHITE);
+  Paint_NewImage(BlackImage, EPD_WIDTH, EPD_HEIGHT, ROTATION, WHITE);
 
 #if 1
 	Paint_SelectImage(BlackImage);
 	Paint_Clear(WHITE);
 
-	Paint_DrawString_EN(5, 105, "Hi THERE", &Font48, WHITE, BLACK);
+	Paint_DrawString_EN(5, 105, "Hi THERE!", &Font48, WHITE, BLACK);
 	EPD_Display(BlackImage);
 #endif
 	
