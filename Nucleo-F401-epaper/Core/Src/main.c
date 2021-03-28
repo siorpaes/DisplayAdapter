@@ -153,7 +153,7 @@ int main(void)
 	Paint_SelectImage(BlackImage);
 	Paint_Clear(WHITE);
 
-	Paint_DrawString_EN(5, 105, "Hi THERE!", &Font48, WHITE, BLACK);
+	Paint_DrawString_EN(5, 105, "-- Col Taron --", &Font48, WHITE, BLACK);
 	EPD_Display(BlackImage);
 #endif
 	
@@ -173,9 +173,11 @@ int main(void)
 		Paint_Clear(WHITE);
 		while(dataready == 0);
 		dataready = 0;
-		printf("%i chars: %s\r\n", ndatareceived, displaybuffer);
-		Paint_DrawString_EN(5, 100, displaybuffer, &Font48, WHITE, BLACK);
-		EPD_Display(BlackImage);
+		if(ndatareceived == 15){
+			printf("%i chars: %s\r\n", ndatareceived, displaybuffer);
+			Paint_DrawString_EN(5, 100, displaybuffer, &Font48, WHITE, BLACK);
+			EPD_Display(BlackImage);
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -285,8 +287,8 @@ static void MX_SPI3_Init(void)
   hspi3.Init.Mode = SPI_MODE_SLAVE;
   hspi3.Init.Direction = SPI_DIRECTION_2LINES_RXONLY;
   hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi3.Init.CLKPolarity = SPI_POLARITY_HIGH;
+  hspi3.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi3.Init.NSS = SPI_NSS_HARD_INPUT;
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
@@ -430,18 +432,20 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	if(bufferpos >= oldbufferpos){
 		ndatareceived = bufferpos - oldbufferpos;
-		memcpy(displaybuffer, (uint8_t*)&spibuffer[oldbufferpos], ndatareceived);
+		if(ndatareceived == 15)
+			memcpy(displaybuffer, (uint8_t*)&spibuffer[oldbufferpos], ndatareceived);
 	}
 	else{
 		ndatareceived = BUFFERLEN + bufferpos - oldbufferpos;
-		memcpy(displaybuffer, (uint8_t*)&spibuffer[oldbufferpos], BUFFERLEN-oldbufferpos);
-		memcpy(&displaybuffer[BUFFERLEN-oldbufferpos], (uint8_t*)spibuffer, bufferpos);
-
+		if(ndatareceived == 15){
+			memcpy(displaybuffer, (uint8_t*)&spibuffer[oldbufferpos], BUFFERLEN-oldbufferpos);
+			memcpy(&displaybuffer[BUFFERLEN-oldbufferpos], (uint8_t*)spibuffer, bufferpos);
+		}
 	}
 
 	oldbufferpos = bufferpos;
 
-	if(ndatareceived)
+	if(ndatareceived == 15)
 		dataready = 1;
 }
 
