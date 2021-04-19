@@ -169,14 +169,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1){
 		memset(displaybuffer, 0, sizeof(displaybuffer));
-		Paint_SelectImage(BlackImage);
-		Paint_Clear(WHITE);
 		while(dataready == 0);
 		dataready = 0;
 		if(ndatareceived == 15){
 			printf("%i chars: %s\r\n", ndatareceived, displaybuffer);
-			Paint_DrawString_EN(5, 100, displaybuffer, &Font48, WHITE, BLACK);
-			EPD_Display(BlackImage);
+			if(strstr(displaybuffer, "USB") || strstr(displaybuffer, "PORT") || strstr(displaybuffer, "FM") || strstr(displaybuffer, "CD ") || strstr(displaybuffer, "iPod")){ 
+				Paint_SelectImage(BlackImage);
+				Paint_Clear(WHITE);
+				Paint_DrawString_EN(5, 100, displaybuffer, &Font48, WHITE, BLACK);
+				EPD_Display(BlackImage);
+			}
 		}
     /* USER CODE END WHILE */
 
