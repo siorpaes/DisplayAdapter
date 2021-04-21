@@ -56,3 +56,7 @@ Pinout
 | TM1637  SDA  |  PA2     | Bitbanged, not defined in CubeMX  |
 | SSD1306 SCL  |  PA9     |                                   |
 | SSD1306 SDA  |  PA10    |                                   |
+
+
+test
+
