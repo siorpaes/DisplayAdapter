@@ -57,6 +57,8 @@ Pinout
 | SSD1306 SCL  |  PA9     |                                   |
 | SSD1306 SDA  |  PA10    |                                   |
 
-
-test
+## Bugs
+* Too slow, misses display updates
+* Should display 'FM   RCORTINA' but shows 'FM'
+* Should Display 'CD > 001  0:11' but shows 'CD  001   :'
 
