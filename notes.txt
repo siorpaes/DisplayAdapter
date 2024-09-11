@@ -5,6 +5,7 @@ https://www.manualslib.com/download/1241537/Yamaha-Crx-330.html
 
 Mounts Renesas M66003. Datasheet not available but M66004 is:
 https://playground.arduino.cc/Main/M66004Vfd
+https://www.alldatasheet.com/view.jsp?Searchword=M66004&sField=2
 
 Data is conveyed via SPI so should be fairly easy to snoop data and display it
 
